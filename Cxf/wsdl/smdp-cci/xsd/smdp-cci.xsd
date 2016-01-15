@@ -1,0 +1,173 @@
+<?xml version="1.0" encoding="utf-8"?>
+<xs:schema xmlns:xs="http://www.w3.org/2001/XMLSchema" elementFormDefault="qualified" attributeFormDefault="unqualified">
+  <xs:annotation>
+    <xs:documentation>This schema is not carrying any version on its own, as it is not a stand alone schema (it is designed to be included in another one). This schema is explicitly having no name space in order to enable the possibility to apply the "chameleon" approach. (the name space will be the one of the including schema).</xs:documentation>
+  </xs:annotation>
+  <xs:group name="CCI">
+    <xs:annotation>
+      <xs:documentation>Provides the list of all function execution requests and function execution responses defined in ES2 interface</xs:documentation>
+    </xs:annotation>
+    <xs:choice>
+      <xs:element ref="CCI-GetSubscriptionStockRequest"/>
+      <xs:element ref="CCI-GetSubscriptionStockResponse"/>
+      <xs:element ref="CCI-GetAvailableSubscriptionProfilesRequest"/>
+      <xs:element ref="CCI-GetAvailableSubscriptionProfilesResponse"/>
+    </xs:choice>
+  </xs:group>
+  <xs:simpleType name="CCI-MessageType">
+    <xs:annotation>
+      <xs:documentation>List of all possible message types. A type shall exist for each supported function of the interface.</xs:documentation>
+    </xs:annotation>
+    <xs:restriction base="xs:string">
+      <xs:enumeration value="CCI-GetSubscriptionStockRequest"/>
+      <xs:enumeration value="CCI-GetSubscriptionStockResponse"/>
+      <xs:enumeration value="CCI-GetAvailableSubscriptionProfilesRequest"/>
+      <xs:enumeration value="CCI-GetAvailableSubscriptionProfilesResponse"/>
+    </xs:restriction>
+  </xs:simpleType>
+  <!--============================================================================================================================-->
+  <xs:element name="CCI-GetSubscriptionStockRequest">
+    <xs:annotation>
+      <xs:documentation>Maps an execution request of the CCI-GetSubscriptionStockRequest function.</xs:documentation>
+    </xs:annotation>
+	<xs:complexType>
+        <xs:sequence>
+            <xs:annotation>
+        <xs:documentation>No specific input</xs:documentation>
+            </xs:annotation>
+        </xs:sequence>
+	</xs:complexType>
+</xs:element>
+  <xs:element name="CCI-GetSubscriptionStockResponse">
+    <xs:annotation>
+      <xs:documentation>Maps an execution response of the CCI-GetSubscriptionStockResponse function.</xs:documentation>
+    </xs:annotation>
+    <xs:complexType>
+      <xs:complexContent>
+        <xs:extension base="CCI-BaseResponseType">
+      	  <xs:sequence>
+      		<xs:element name="subscriptionStockInfo" type="SubscriptionStockInfoType" minOccurs="0" maxOccurs="unbounded">
+      		  <xs:annotation>
+      			<xs:documentation>This is the list of subscription stock information</xs:documentation>
+      		  </xs:annotation>
+      		</xs:element>
+      	  </xs:sequence>
+        </xs:extension>
+      </xs:complexContent>
+    </xs:complexType>
+  </xs:element>
+  <xs:complexType name="SubscriptionStockInfoType">
+	<xs:sequence>
+		<xs:element name="profileId" type="xs:string">
+			<xs:annotation>
+				<xs:documentation>The identifier of the profile</xs:documentation>
+			</xs:annotation>
+		</xs:element>
+		<xs:element name="subscriptionQuantity" type="xs:long">
+			<xs:annotation>
+				<xs:documentation>The remaining subscription quantity of the profile</xs:documentation>
+			</xs:annotation>
+		</xs:element>
+	</xs:sequence>
+  </xs:complexType>
+  <!--============================================================================================================================-->
+  <xs:element name="CCI-GetAvailableSubscriptionProfilesRequest">
+    <xs:annotation>
+		<xs:documentation>Maps an execution request of the CCI-GetAvailableSubscriptionProfilesRequest function.</xs:documentation>
+    </xs:annotation>
+	<xs:complexType>
+		<xs:sequence>
+			<xs:element name="platformType" type="NonEmptyString">
+				<xs:annotation>
+					<xs:documentation>The platform type of the profile</xs:documentation>
+				</xs:annotation>
+			</xs:element>
+			<xs:element name="platformVersion" type="NonEmptyString">
+				<xs:annotation>
+					<xs:documentation>The platform version of the profile</xs:documentation>
+				 </xs:annotation>
+			</xs:element>
+			<xs:element name="profileID" type="NonEmptyString">
+				<xs:annotation>
+					<xs:documentation>The id of the profile</xs:documentation>
+				</xs:annotation>
+			</xs:element>
+		</xs:sequence>
+	</xs:complexType>
+  </xs:element>
+  <xs:element name="CCI-GetAvailableSubscriptionProfilesResponse">
+    <xs:annotation>
+      <xs:documentation>Maps an execution response of the CCI-GetAvailableSubscriptionProfilesResponse function.</xs:documentation>
+    </xs:annotation>
+    <xs:complexType>
+      <xs:complexContent>
+        <xs:extension base="CCI-BaseResponseType">
+      	  <xs:sequence>
+      		<xs:element name="subscriptionProfileInfo" type="SubscriptionProfileInfoType" minOccurs="0" maxOccurs="unbounded">
+      		  <xs:annotation>
+      			<xs:documentation>This is the list of subscription profiles</xs:documentation>
+      		  </xs:annotation>
+      		</xs:element>
+      	  </xs:sequence>
+        </xs:extension>
+      </xs:complexContent>
+    </xs:complexType>
+  </xs:element>
+  <xs:complexType name="SubscriptionProfileInfoType">
+	<xs:sequence>
+		<xs:element name="mnoTrigram" type="xs:string">
+			<xs:annotation>
+				<xs:documentation>The MNO trigram of the profile</xs:documentation>
+			</xs:annotation>
+		</xs:element>
+		<xs:element name="profileType" type="xs:string">
+			<xs:annotation>
+				<xs:documentation>The type of the profile</xs:documentation>
+			</xs:annotation>
+		</xs:element>
+	</xs:sequence>
+  </xs:complexType>
+  <!--============================================================================================================================-->
+  <xs:complexType name="CCI-BaseResponseType">
+      <xs:annotation>
+          <xs:documentation>The base type for a Response types.</xs:documentation>
+      </xs:annotation>
+      <xs:sequence>
+          <xs:element name="processingStart" type="xs:dateTime" minOccurs="0">
+              <xs:annotation>
+                  <xs:documentation>The start time and date of the real processing of the function by the function provider (and not the time and date of reception of the request).</xs:documentation>
+              </xs:annotation>
+          </xs:element>
+          <xs:element name="processingEnd" type="xs:dateTime" minOccurs="0">
+              <xs:annotation>
+                  <xs:documentation>The function processing end time and date.</xs:documentation>
+              </xs:annotation>
+          </xs:element>
+          <xs:element name="status" type="StatusType">
+              <xs:annotation>
+                  <xs:documentation>It indicates whether the processing has been completed correctly or not.</xs:documentation>
+              </xs:annotation>
+          </xs:element>
+          <xs:element name="message" type="xs:string" minOccurs="0">
+              <xs:annotation>
+                  <xs:documentation>It provides a textual and human readable explanation of the exception. The Message value is implementation dependant.</xs:documentation>
+              </xs:annotation>
+          </xs:element>
+      </xs:sequence>
+  </xs:complexType>
+  <xs:simpleType name="StatusType">
+      <xs:annotation>
+          <xs:documentation>It indicates whether the processing has been completed correctly or not.</xs:documentation>
+      </xs:annotation>
+      <xs:restriction base="xs:string">
+          <xs:enumeration value="SUCCEEDED"/>
+          <xs:enumeration value="FAILED"/>
+      </xs:restriction>
+  </xs:simpleType>
+  <xs:simpleType name="NonEmptyString">
+	  <xs:restriction base="xs:string">
+		<xs:minLength value="1" />
+		<xs:pattern value=".*[^\s].*" />
+      </xs:restriction>
+  </xs:simpleType>
+</xs:schema>

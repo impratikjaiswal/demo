@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<xs:schema xmlns:xs="http://www.w3.org/2001/XMLSchema"
+    xmlns:smdp="http://gemalto.com/smdp/wsdl"
+    targetNamespace="http://gemalto.com/smdp/wsdl" elementFormDefault="qualified"
+    attributeFormDefault="unqualified" version="1.0.0">
+
+	<xs:include schemaLocation="smdp-cci.xsd"/>
+    
+    <!--============================================================================================================================-->
+    <xs:element name="CCIMessage">
+        <xs:annotation>
+            <xs:documentation>CCI message is composed of a mandatory body</xs:documentation>
+        </xs:annotation>
+         <xs:complexType>
+            <xs:choice minOccurs="1" maxOccurs="1">
+                <xs:group ref="smdp:CCI"/>
+            </xs:choice>
+        </xs:complexType>
+    </xs:element>  
+    <!--============================================================================================================================-->
+
+</xs:schema>

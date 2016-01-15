@@ -1,0 +1,10 @@
+These files come from osmsr-ws-client.
+
+Comply CXF plugin by updating original WSDL for following issues:
+1. [xsd/import/ws-addr.xsd] excluded in [ES3_SMDP.wsdl] and [ES4_MNO.wsdl]
+
+<!-- Compile error 
+    <wsdl:import namespace="http://www.w3.org/2005/08/addressing" location="xsd/import/ws-addr.xsd"/>
+    -->
+2. euicc.common.types.xsd
+  Signature can't compiled

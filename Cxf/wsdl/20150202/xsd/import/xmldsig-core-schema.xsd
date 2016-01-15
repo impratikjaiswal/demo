@@ -1,0 +1,73 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<xs:schema elementFormDefault="qualified" version="1.0" targetNamespace="http://www.w3.org/2000/09/xmldsig#" xmlns="http://www.w3.org/2000/09/xmldsig#" xmlns:tns="http://www.w3.org/2000/09/xmldsig#" xmlns:xs="http://www.w3.org/2001/XMLSchema">
+
+  <xs:element name="CanonicalizationMethod" type="CanonicalizationMethod"/>
+
+  <xs:element name="DigestMethod" type="DigestMethod"/>
+
+  <xs:element name="EumSignature" type="SignatureType"/>
+
+  <xs:element name="KeyInfo" type="KeyInfo"/>
+
+  <xs:element name="Reference" type="Reference"/>
+
+  <xs:element name="SignatureMethod" type="SignatureMethod"/>
+
+  <xs:element name="SignatureType" type="SignatureType"/>
+
+  <xs:element name="SignedInfo" type="SignedInfo"/>
+
+  <xs:element name="X509Data" type="X509Data"/>
+
+  <xs:complexType name="SignatureType">
+    <xs:sequence>
+      <xs:element ref="SignedInfo"/>
+      <xs:element name="SignatureValue" type="xs:string"/>
+      <xs:element ref="KeyInfo"/>
+    </xs:sequence>
+  </xs:complexType>
+
+  <xs:complexType name="SignedInfo">
+    <xs:sequence>
+      <xs:element ref="CanonicalizationMethod" minOccurs="0"/>
+      <xs:element ref="SignatureMethod"/>
+      <xs:element ref="Reference" minOccurs="0"/>
+    </xs:sequence>
+  </xs:complexType>
+
+  <xs:complexType name="CanonicalizationMethod">
+    <xs:sequence/>
+    <xs:attribute name="Algorithm" type="xs:string"/>
+  </xs:complexType>
+
+  <xs:complexType name="SignatureMethod">
+    <xs:sequence/>
+    <xs:attribute name="Algorithm" type="xs:string"/>
+  </xs:complexType>
+
+  <xs:complexType name="Reference">
+    <xs:sequence>
+      <xs:element ref="DigestMethod"/>
+      <xs:element name="DigestValue" type="xs:string"/>
+    </xs:sequence>
+  </xs:complexType>
+
+  <xs:complexType name="DigestMethod">
+    <xs:sequence/>
+    <xs:attribute name="Algorithm" type="xs:string"/>
+  </xs:complexType>
+
+  <xs:complexType name="KeyInfo">
+    <xs:sequence>
+      <xs:element ref="X509Data"/>
+    </xs:sequence>
+  </xs:complexType>
+
+  <xs:complexType name="X509Data">
+    <xs:sequence>
+      <xs:element name="X509SubjectName" type="xs:string" minOccurs="0"/>
+      <xs:element name="X509Certificate" type="xs:base64Binary" minOccurs="0"/>
+    </xs:sequence>
+  </xs:complexType>
+</xs:schema>
+

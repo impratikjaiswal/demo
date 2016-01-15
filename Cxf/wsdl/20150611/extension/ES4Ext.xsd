@@ -1,0 +1,91 @@
+<?xml version="1.0" encoding="utf-8"?>
+<xs:schema xmlns:xs="http://www.w3.org/2001/XMLSchema" elementFormDefault="qualified"
+  attributeFormDefault="unqualified">
+  <xs:annotation>
+    <xs:documentation>This schema is not carrying any version on its own, as it is not a stand alone schema (it is designed to be included in another one). This schema is explicitly having no name space in order to enable the possibility to apply the "chameleon" approach. (the name space will be the one of the including schema).</xs:documentation>
+  </xs:annotation>
+  <xs:include schemaLocation="../xsd/euicc.common.request.xsd"/>
+  <xs:include schemaLocation="../xsd/euicc.common.types.xsd"/>
+  <xs:group name="ES4Ext">
+    <xs:annotation>
+      <xs:documentation>Provides the list of all function execution requests and function execution responses defined in ES4 interface</xs:documentation>
+    </xs:annotation>
+    <xs:choice>
+      <xs:element ref="ES4Ext-MasterDeleteProfileRequest"/>
+      <xs:element ref="ES4Ext-MasterDeleteProfileResponse"/>
+    </xs:choice>
+  </xs:group>
+  <xs:simpleType name="ES4Ext-MessageType">
+    <xs:annotation>
+      <xs:documentation>List of all possible message type. A type shall exist for each supported function of the interface.</xs:documentation>
+    </xs:annotation>
+    <xs:restriction base="xs:string">
+      <xs:enumeration value="ES4Ext-MasterDeleteProfileRequest"/>
+      <xs:enumeration value="ES4Ext-MasterDeleteProfileResponse"/>
+    </xs:restriction>
+  </xs:simpleType>
+  
+  
+   <!--============================================================================================================================-->
+  <xs:element name="ES4Ext-MasterDeleteProfileRequest">
+    <xs:annotation>
+      <xs:documentation>Maps an execution request of the ES4-DeleteProfile function.</xs:documentation>
+    </xs:annotation>
+    <xs:complexType>
+      <xs:complexContent>
+        <xs:extension base="BaseRequestType">
+          <xs:sequence>
+            <xs:element name="eid" type="EIDType">
+              <xs:annotation>
+                <xs:documentation>Identification of the targeted eUICC.</xs:documentation>
+              </xs:annotation>
+            </xs:element>
+            <xs:element name="iccid" type="ICCIDType">
+              <xs:annotation>
+                <xs:documentation>Identification of the target Profile.</xs:documentation>
+              </xs:annotation>
+            </xs:element>
+
+            <xs:element name="masterDeleteDataField" type="xs:hexBinary">
+              <xs:annotation>
+                  <xs:documentation> 
+                  Master Delete data field as desribed in table 30 of GSMA specification
+                  For information : it's a list of TLVs tag 4F and tag B6 
+                      with IsdpAidToBeDeleted,sin Sdin,API,tokenIdNumber,delete token 
+                  </xs:documentation>
+              </xs:annotation>
+            </xs:element>
+
+          </xs:sequence>
+        </xs:extension>
+      </xs:complexContent>
+    </xs:complexType>
+  </xs:element>
+  <xs:element name="ES4Ext-MasterDeleteProfileResponse">
+    <xs:annotation>
+      <xs:documentation>Maps an execution response of the ES4Ext-MasterDeleteProfile function.</xs:documentation>
+    </xs:annotation>
+    <xs:complexType>
+      <xs:complexContent>
+        <xs:extension base="BaseResponseType">
+          <xs:sequence>
+            <xs:element name="euiccResponseData" type="xs:hexBinary" minOccurs="0">
+              <xs:annotation>
+                <xs:documentation>response of Euicc that is SW1,SW2</xs:documentation>
+              </xs:annotation>
+            </xs:element>
+            <xs:element name="responseMessage" type="xs:string" >
+              <xs:annotation>
+                  <xs:documentation>Free text to describe the status of the operation.
+                      this field should be 'OK' on success.
+                      It should never be empty in case of error; an explanatory text should be returned in such a case 
+                  </xs:documentation>
+              </xs:annotation>
+            </xs:element>
+          </xs:sequence>
+        </xs:extension>
+      </xs:complexContent>
+    </xs:complexType>
+  </xs:element>
+
+</xs:schema>
