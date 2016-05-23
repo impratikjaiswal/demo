@@ -1,0 +1,20 @@
+<soap:Envelope xmlns:soap="http://www.w3.org/2003/05/soap-envelope">
+	<soap:Body>
+		<ES4-AuditEISRequest xmlns="http://namespaces.gsma.org/esim-messaging/1"
+			xmlns:ns2="http://www.w3.org/2000/09/xmldsig#">
+			<eid>313233343536</eid>
+			<iccid>12345678</iccid>
+		</ES4-AuditEISRequest>
+	</soap:Body>
+</soap:Envelope>
+
+<soap:Envelope xmlns:soap="http://www.w3.org/2003/05/soap-envelope">
+	<soap:Body>
+		<ES4-AuditEISRequest xmlns="http://namespaces.gsma.org/esim-messaging/1"
+			xmlns:ns2="http://www.w3.org/2000/09/xmldsig#">
+			<functionCallIdentifier>1234</functionCallIdentifier>
+			<eid>313233343536</eid>
+			<iccid>89123456789</iccid>
+		</ES4-AuditEISRequest>
+	</soap:Body>
+</soap:Envelope>
